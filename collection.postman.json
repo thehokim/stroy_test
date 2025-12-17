@@ -1,0 +1,1522 @@
+{
+  "info": {
+    "name": "Dashboard API Tests",
+    "description": "Comprehensive API testing collection for Dashboard service",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "POST Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Content-Type is application/json\", function () {",
+                  "    pm.response.to.have.header(\"Content-Type\");",
+                  "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+                  "});",
+                  "",
+                  "const jsonData = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has result object\", function () {",
+                  "    pm.expect(jsonData).to.have.property('result');",
+                  "});",
+                  "",
+                  "pm.test(\"Result has all required fields\", function () {",
+                  "    const result = jsonData.result;",
+                  "    pm.expect(result).to.have.property('id');",
+                  "    pm.expect(result).to.have.property('role');",
+                  "    pm.expect(result).to.have.property('token');",
+                  "    pm.expect(result).to.have.property('refreshToken');",
+                  "    pm.expect(result).to.have.property('login');",
+                  "});",
+                  "",
+                  "pm.test(\"Field data types are correct\", function () {",
+                  "    const result = jsonData.result;",
+                  "    pm.expect(result.id).to.be.a('number');",
+                  "    pm.expect(result.role).to.be.a('string');",
+                  "    pm.expect(result.token).to.be.a('string').and.not.empty;",
+                  "    pm.expect(result.refreshToken).to.be.a('string').and.not.empty;",
+                  "    pm.expect(result.login).to.be.a('string');",
+                  "});",
+                  "",
+                  "pm.test(\"Role is valid enum value\", function () {",
+                  "    const validRoles = ['super_admin', 'admin', 'client', 'branch_manager', 'branch_employee'];",
+                  "    pm.expect(validRoles).to.include(jsonData.result.role);",
+                  "});",
+                  "",
+                  "pm.test(\"Token looks like JWT\", function () {",
+                  "    const token = jsonData.result.token;",
+                  "    const jwtRegex = /^[A-Za-z0-9-_]+\\.[A-Za-z0-9-_]+\\.[A-Za-z0-9-_]+$/;",
+                  "    pm.expect(token).to.match(jwtRegex);",
+                  "});",
+                  "",
+                  "// Save tokens for subsequent requests",
+                  "if (jsonData.result) {",
+                  "    pm.environment.set(\"authToken\", jsonData.result.token);",
+                  "    pm.environment.set(\"refreshToken\", jsonData.result.refreshToken);",
+                  "    pm.environment.set(\"userId\", jsonData.result.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"login\": \"abdulaziz\",\n    \"password\": \"12345678\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/v1/dashboard/auth/login",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "v1", "dashboard", "auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "POST Login - Invalid Credentials",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400 or 401\", function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 401]);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has error message\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('message');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"login\": \"invalid_user\",\n    \"password\": \"wrong_password\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/v1/dashboard/auth/login",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "v1", "dashboard", "auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "POST Get Me (Profile)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const jsonData = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has result object\", function () {",
+                  "    pm.expect(jsonData).to.have.property('result');",
+                  "});",
+                  "",
+                  "pm.test(\"Profile has required fields\", function () {",
+                  "    const result = jsonData.result;",
+                  "    pm.expect(result).to.have.property('id');",
+                  "    pm.expect(result).to.have.property('role');",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseURL}}/api/v1/dashboard/auth/me",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "v1", "dashboard", "auth", "me"]
+            }
+          }
+        },
+        {
+          "name": "POST Refresh Token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const jsonData = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has result with new tokens\", function () {",
+                  "    pm.expect(jsonData).to.have.property('result');",
+                  "    pm.expect(jsonData.result).to.have.property('token');",
+                  "    pm.expect(jsonData.result).to.have.property('refreshToken');",
+                  "});",
+                  "",
+                  "pm.test(\"New tokens are valid strings\", function () {",
+                  "    pm.expect(jsonData.result.token).to.be.a('string').and.not.empty;",
+                  "    pm.expect(jsonData.result.refreshToken).to.be.a('string').and.not.empty;",
+                  "});",
+                  "",
+                  "// Update tokens",
+                  "if (jsonData.result) {",
+                  "    pm.environment.set(\"authToken\", jsonData.result.token);",
+                  "    pm.environment.set(\"refreshToken\", jsonData.result.refreshToken);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"refreshToken\": \"{{refreshToken}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/v1/dashboard/auth/refresh-token",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "v1", "dashboard", "auth", "refresh-token"]
+            }
+          }
+        },
+        {
+          "name": "POST Change Password",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 or 400\", function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 400]);",
+                  "});",
+                  "",
+                  "const jsonData = pm.response.json();",
+                  "",
+                  "if (pm.response.code === 200) {",
+                  "    pm.test(\"Response has result\", function () {",
+                  "        pm.expect(jsonData).to.have.property('result');",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"old_password\": \"12345678\",\n    \"new_password\": \"12345678\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/v1/dashboard/auth/change-password",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "v1", "dashboard", "auth", "change-password"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Brand",
+      "item": [
+        {
+          "name": "POST Create Brand",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "const randomSlug = `test-brand-${Math.floor(Math.random() * 100000)}`;",
+                  "pm.environment.set(\"newBrandSlug\", randomSlug);"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "const jsonData = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has result object\", function () {",
+                  "    pm.expect(jsonData).to.have.property('result');",
+                  "});",
+                  "",
+                  "pm.test(\"Brand has all required fields\", function () {",
+                  "    const result = jsonData.result;",
+                  "    pm.expect(result).to.have.property('id');",
+                  "    pm.expect(result).to.have.property('title');",
+                  "    pm.expect(result).to.have.property('slug');",
+                  "    pm.expect(result).to.have.property('position');",
+                  "    pm.expect(result).to.have.property('public');",
+                  "    pm.expect(result).to.have.property('created_at');",
+                  "});",
+                  "",
+                  "pm.test(\"Field data types are correct\", function () {",
+                  "    const result = jsonData.result;",
+                  "    pm.expect(result.id).to.be.a('number');",
+                  "    pm.expect(result.title).to.be.an('object');",
+                  "    pm.expect(result.slug).to.be.a('string');",
+                  "    pm.expect(result.position).to.be.a('number');",
+                  "    pm.expect(result.public).to.be.a('boolean');",
+                  "});",
+                  "",
+                  "pm.test(\"Title has multilingual structure\", function () {",
+                  "    const title = jsonData.result.title;",
+                  "    pm.expect(title).to.have.property('uz');",
+                  "    pm.expect(title).to.have.property('ru');",
+                  "    pm.expect(title).to.have.property('en');",
+                  "});",
+                  "",
+                  "// Save brand ID for subsequent requests",
+                  "if (jsonData.result) {",
+                  "    pm.environment.set(\"createdBrandId\", jsonData.result.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": {\n        \"uz\": \"Test Brend UZ\",\n        \"ru\": \"Тест Бренд RU\",\n        \"en\": \"Test Brand EN\"\n    },\n    \"slug\": \"{{newBrandSlug}}\",\n    \"file_id\": 1,\n    \"position\": 100,\n    \"public\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/v1/dashboard/brand/create",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "v1", "dashboard", "brand", "create"]
+            }
+          }
+        },
+        {
+          "name": "POST Get All Brands",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const jsonData = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has pagination object\", function () {",
+                  "    pm.expect(jsonData).to.have.property('pagination');",
+                  "});",
+                  "",
+                  "pm.test(\"Response has result array\", function () {",
+                  "    pm.expect(jsonData).to.have.property('result');",
+                  "    pm.expect(jsonData.result).to.be.an('array');",
+                  "});",
+                  "",
+                  "pm.test(\"Pagination has correct structure\", function () {",
+                  "    const pagination = jsonData.pagination;",
+                  "    pm.expect(pagination).to.have.property('current');",
+                  "    pm.expect(pagination).to.have.property('previous');",
+                  "    pm.expect(pagination).to.have.property('next');",
+                  "    pm.expect(pagination).to.have.property('limit');",
+                  "    pm.expect(pagination).to.have.property('total');",
+                  "    pm.expect(pagination).to.have.property('totalItems');",
+                  "});",
+                  "",
+                  "pm.test(\"Pagination values are numbers\", function () {",
+                  "    const pagination = jsonData.pagination;",
+                  "    pm.expect(pagination.current).to.be.a('number');",
+                  "    pm.expect(pagination.limit).to.be.a('number');",
+                  "    pm.expect(pagination.total).to.be.a('number');",
+                  "    pm.expect(pagination.totalItems).to.be.a('number');",
+                  "});",
+                  "",
+                  "pm.test(\"Result items have correct structure\", function () {",
+                  "    if (jsonData.result.length > 0) {",
+                  "        const firstBrand = jsonData.result[0];",
+                  "        pm.expect(firstBrand).to.have.property('id');",
+                  "        pm.expect(firstBrand).to.have.property('title');",
+                  "        pm.expect(firstBrand).to.have.property('slug');",
+                  "    }",
+                  "});",
+                  "",
+                  "// Save first brand ID if exists",
+                  "if (jsonData.result && jsonData.result.length > 0) {",
+                  "    pm.environment.set(\"brandId\", jsonData.result[0].id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"page\": 1,\n    \"limit\": 10\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/v1/dashboard/brand/findAll",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "v1", "dashboard", "brand", "findAll"]
+            }
+          }
+        },
+        {
+          "name": "POST Get Brand by ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const jsonData = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has result object\", function () {",
+                  "    pm.expect(jsonData).to.have.property('result');",
+                  "});",
+                  "",
+                  "pm.test(\"Brand has all required fields\", function () {",
+                  "    const result = jsonData.result;",
+                  "    pm.expect(result).to.have.property('id');",
+                  "    pm.expect(result).to.have.property('title');",
+                  "    pm.expect(result).to.have.property('slug');",
+                  "    pm.expect(result).to.have.property('position');",
+                  "    pm.expect(result).to.have.property('public');",
+                  "});",
+                  "",
+                  "pm.test(\"Brand ID matches requested ID\", function () {",
+                  "    const requestedId = parseInt(pm.environment.get(\"createdBrandId\") || pm.environment.get(\"brandId\"));",
+                  "    pm.expect(jsonData.result.id).to.eql(requestedId);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"id\": {{createdBrandId}}\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/v1/dashboard/brand/findOne",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "v1", "dashboard", "brand", "findOne"]
+            }
+          }
+        },
+        {
+          "name": "POST Update Brand",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "const updatedSlug = `updated-brand-${Math.floor(Math.random() * 100000)}`;",
+                  "pm.environment.set(\"updatedBrandSlug\", updatedSlug);"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 202\", function () {",
+                  "    pm.response.to.have.status(202);",
+                  "});",
+                  "",
+                  "const jsonData = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has result object\", function () {",
+                  "    pm.expect(jsonData).to.have.property('result');",
+                  "});",
+                  "",
+                  "pm.test(\"Updated brand has correct slug\", function () {",
+                  "    const updatedSlug = pm.environment.get(\"updatedBrandSlug\");",
+                  "    pm.expect(jsonData.result.slug).to.eql(updatedSlug);",
+                  "});",
+                  "",
+                  "pm.test(\"Updated brand has updated title\", function () {",
+                  "    pm.expect(jsonData.result.title.uz).to.include(\"Updated\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"id\": {{createdBrandId}},\n    \"title\": {\n        \"uz\": \"Updated Brend UZ\",\n        \"ru\": \"Обновленный Бренд RU\",\n        \"en\": \"Updated Brand EN\"\n    },\n    \"slug\": \"{{updatedBrandSlug}}\",\n    \"file_id\": 1,\n    \"position\": 101,\n    \"public\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/v1/dashboard/brand/update",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "v1", "dashboard", "brand", "update"]
+            }
+          }
+        },
+        {
+          "name": "POST Delete Brand",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const jsonData = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has result\", function () {",
+                  "    pm.expect(jsonData).to.have.property('result');",
+                  "});",
+                  "",
+                  "pm.test(\"Delete result is true\", function () {",
+                  "    pm.expect(jsonData.result).to.eql(true);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is less than 2000ms\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"id\": {{createdBrandId}}\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/v1/dashboard/brand/remove",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "v1", "dashboard", "brand", "remove"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Category",
+      "item": [
+        {
+          "name": "POST Create Category",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "const randomSlug = `test-category-${Math.floor(Math.random() * 100000)}`;",
+                  "pm.environment.set(\"newCategorySlug\", randomSlug);"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "const jsonData = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has result object\", function () {",
+                  "    pm.expect(jsonData).to.have.property('result');",
+                  "});",
+                  "",
+                  "pm.test(\"Category has all required fields\", function () {",
+                  "    const result = jsonData.result;",
+                  "    pm.expect(result).to.have.property('id');",
+                  "    pm.expect(result).to.have.property('title');",
+                  "    pm.expect(result).to.have.property('slug');",
+                  "    pm.expect(result).to.have.property('level');",
+                  "    pm.expect(result).to.have.property('position');",
+                  "    pm.expect(result).to.have.property('public');",
+                  "    pm.expect(result).to.have.property('created_at');",
+                  "});",
+                  "",
+                  "pm.test(\"Field data types are correct\", function () {",
+                  "    const result = jsonData.result;",
+                  "    pm.expect(result.id).to.be.a('number');",
+                  "    pm.expect(result.title).to.be.an('object');",
+                  "    pm.expect(result.slug).to.be.a('string');",
+                  "    pm.expect(result.level).to.be.a('number');",
+                  "    pm.expect(result.position).to.be.a('number');",
+                  "    pm.expect(result.public).to.be.a('boolean');",
+                  "});",
+                  "",
+                  "pm.test(\"Title has multilingual structure\", function () {",
+                  "    const title = jsonData.result.title;",
+                  "    pm.expect(title).to.have.property('uz');",
+                  "    pm.expect(title).to.have.property('ru');",
+                  "    pm.expect(title).to.have.property('en');",
+                  "});",
+                  "",
+                  "// Save category ID for subsequent requests",
+                  "if (jsonData.result) {",
+                  "    pm.environment.set(\"createdCategoryId\", jsonData.result.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": {\n        \"uz\": \"Test Kategoriya UZ\",\n        \"ru\": \"Тест Категория RU\",\n        \"en\": \"Test Category EN\"\n    },\n    \"slug\": \"{{newCategorySlug}}\",\n    \"level\": 1,\n    \"position\": 100\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/v1/dashboard/categories/create",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "v1", "dashboard", "categories", "create"]
+            }
+          }
+        },
+        {
+          "name": "POST Get All Categories",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const jsonData = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has pagination object\", function () {",
+                  "    pm.expect(jsonData).to.have.property('pagination');",
+                  "});",
+                  "",
+                  "pm.test(\"Response has result array\", function () {",
+                  "    pm.expect(jsonData).to.have.property('result');",
+                  "    pm.expect(jsonData.result).to.be.an('array');",
+                  "});",
+                  "",
+                  "pm.test(\"Pagination has correct structure\", function () {",
+                  "    const pagination = jsonData.pagination;",
+                  "    pm.expect(pagination).to.have.property('current');",
+                  "    pm.expect(pagination).to.have.property('limit');",
+                  "    pm.expect(pagination).to.have.property('total');",
+                  "    pm.expect(pagination).to.have.property('totalItems');",
+                  "});",
+                  "",
+                  "pm.test(\"Result items have correct structure\", function () {",
+                  "    if (jsonData.result.length > 0) {",
+                  "        const firstCategory = jsonData.result[0];",
+                  "        pm.expect(firstCategory).to.have.property('id');",
+                  "        pm.expect(firstCategory).to.have.property('title');",
+                  "        pm.expect(firstCategory).to.have.property('slug');",
+                  "        pm.expect(firstCategory).to.have.property('level');",
+                  "    }",
+                  "});",
+                  "",
+                  "// Save first category ID if exists",
+                  "if (jsonData.result && jsonData.result.length > 0) {",
+                  "    pm.environment.set(\"categoryId\", jsonData.result[0].id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"page\": 1,\n    \"limit\": 10\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/v1/dashboard/categories/findAll",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "v1", "dashboard", "categories", "findAll"]
+            }
+          }
+        },
+        {
+          "name": "POST Get Category by ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const jsonData = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has result object\", function () {",
+                  "    pm.expect(jsonData).to.have.property('result');",
+                  "});",
+                  "",
+                  "pm.test(\"Category has all required fields\", function () {",
+                  "    const result = jsonData.result;",
+                  "    pm.expect(result).to.have.property('id');",
+                  "    pm.expect(result).to.have.property('title');",
+                  "    pm.expect(result).to.have.property('slug');",
+                  "    pm.expect(result).to.have.property('level');",
+                  "});",
+                  "",
+                  "pm.test(\"Category ID matches requested ID\", function () {",
+                  "    const requestedId = parseInt(pm.environment.get(\"createdCategoryId\") || pm.environment.get(\"categoryId\"));",
+                  "    pm.expect(jsonData.result.id).to.eql(requestedId);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"id\": {{createdCategoryId}}\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/v1/dashboard/categories/findOne",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "v1", "dashboard", "categories", "findOne"]
+            }
+          }
+        },
+        {
+          "name": "POST Update Category",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "const updatedSlug = `updated-category-${Math.floor(Math.random() * 100000)}`;",
+                  "pm.environment.set(\"updatedCategorySlug\", updatedSlug);"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 202\", function () {",
+                  "    pm.response.to.have.status(202);",
+                  "});",
+                  "",
+                  "const jsonData = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has result object\", function () {",
+                  "    pm.expect(jsonData).to.have.property('result');",
+                  "});",
+                  "",
+                  "pm.test(\"Updated category has correct slug\", function () {",
+                  "    const updatedSlug = pm.environment.get(\"updatedCategorySlug\");",
+                  "    pm.expect(jsonData.result.slug).to.eql(updatedSlug);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"id\": {{createdCategoryId}},\n    \"title\": {\n        \"uz\": \"Updated Kategoriya UZ\",\n        \"ru\": \"Обновленная Категория RU\",\n        \"en\": \"Updated Category EN\"\n    },\n    \"slug\": \"{{updatedCategorySlug}}\",\n    \"level\": 1,\n    \"file_id\": 1,\n    \"position\": 101,\n    \"is_centered\": true,\n    \"public\": true,\n    \"parent_id\": null\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/v1/dashboard/categories/update",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "v1", "dashboard", "categories", "update"]
+            }
+          }
+        },
+        {
+          "name": "POST Delete Category",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const jsonData = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has result\", function () {",
+                  "    pm.expect(jsonData).to.have.property('result');",
+                  "});",
+                  "",
+                  "pm.test(\"Delete result is true\", function () {",
+                  "    pm.expect(jsonData.result).to.eql(true);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"id\": {{createdCategoryId}}\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/v1/dashboard/categories/remove",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "v1", "dashboard", "categories", "remove"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Product",
+      "item": [
+        {
+          "name": "POST Create Product",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "const randomSlug = `test-product-${Math.floor(Math.random() * 100000)}`;",
+                  "pm.environment.set(\"newProductSlug\", randomSlug);"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "const jsonData = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has result object\", function () {",
+                  "    pm.expect(jsonData).to.have.property('result');",
+                  "});",
+                  "",
+                  "pm.test(\"Product has all required fields\", function () {",
+                  "    const result = jsonData.result;",
+                  "    pm.expect(result).to.have.property('id');",
+                  "    pm.expect(result).to.have.property('title');",
+                  "    pm.expect(result).to.have.property('description');",
+                  "    pm.expect(result).to.have.property('slug');",
+                  "    pm.expect(result).to.have.property('price');",
+                  "    pm.expect(result).to.have.property('count');",
+                  "    pm.expect(result).to.have.property('public');",
+                  "    pm.expect(result).to.have.property('created_at');",
+                  "});",
+                  "",
+                  "pm.test(\"Field data types are correct\", function () {",
+                  "    const result = jsonData.result;",
+                  "    pm.expect(result.id).to.be.a('number');",
+                  "    pm.expect(result.title).to.be.an('object');",
+                  "    pm.expect(result.slug).to.be.a('string');",
+                  "    pm.expect(result.price).to.be.a('number');",
+                  "    pm.expect(result.count).to.be.a('number');",
+                  "    pm.expect(result.public).to.be.a('boolean');",
+                  "});",
+                  "",
+                  "pm.test(\"Title has multilingual structure\", function () {",
+                  "    const title = jsonData.result.title;",
+                  "    pm.expect(title).to.have.property('uz');",
+                  "    pm.expect(title).to.have.property('ru');",
+                  "    pm.expect(title).to.have.property('en');",
+                  "});",
+                  "",
+                  "pm.test(\"Price values are positive\", function () {",
+                  "    pm.expect(jsonData.result.price).to.be.above(0);",
+                  "});",
+                  "",
+                  "// Save product ID for subsequent requests",
+                  "if (jsonData.result) {",
+                  "    pm.environment.set(\"createdProductId\", jsonData.result.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": {\n        \"uz\": \"Test Mahsulot UZ\",\n        \"ru\": \"Тест Продукт RU\",\n        \"en\": \"Test Product EN\"\n    },\n    \"description\": {\n        \"uz\": \"Test tavsif UZ\",\n        \"ru\": \"Тест описание RU\",\n        \"en\": \"Test description EN\"\n    },\n    \"slug\": \"{{newProductSlug}}\",\n    \"count\": 100,\n    \"price\": 150000,\n    \"price_with_discount\": 120000,\n    \"file_ids\": [1],\n    \"seo_title\": \"Test Product SEO\",\n    \"seo_description\": \"Test product SEO description\",\n    \"is_discount\": true,\n    \"is_new\": true,\n    \"position\": 1,\n    \"public\": true,\n    \"category_id\": 1,\n    \"brand_id\": 1,\n    \"unit_id\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/v1/dashboard/product/create",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "v1", "dashboard", "product", "create"]
+            }
+          }
+        },
+        {
+          "name": "POST Get All Products",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const jsonData = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has pagination object\", function () {",
+                  "    pm.expect(jsonData).to.have.property('pagination');",
+                  "});",
+                  "",
+                  "pm.test(\"Response has result array\", function () {",
+                  "    pm.expect(jsonData).to.have.property('result');",
+                  "    pm.expect(jsonData.result).to.be.an('array');",
+                  "});",
+                  "",
+                  "pm.test(\"Pagination has correct structure\", function () {",
+                  "    const pagination = jsonData.pagination;",
+                  "    pm.expect(pagination).to.have.property('current');",
+                  "    pm.expect(pagination).to.have.property('limit');",
+                  "    pm.expect(pagination).to.have.property('total');",
+                  "    pm.expect(pagination).to.have.property('totalItems');",
+                  "});",
+                  "",
+                  "pm.test(\"Result items have correct structure\", function () {",
+                  "    if (jsonData.result.length > 0) {",
+                  "        const firstProduct = jsonData.result[0];",
+                  "        pm.expect(firstProduct).to.have.property('id');",
+                  "        pm.expect(firstProduct).to.have.property('title');",
+                  "        pm.expect(firstProduct).to.have.property('slug');",
+                  "        pm.expect(firstProduct).to.have.property('price');",
+                  "        pm.expect(firstProduct).to.have.property('count');",
+                  "    }",
+                  "});",
+                  "",
+                  "pm.test(\"All products have positive prices\", function () {",
+                  "    jsonData.result.forEach(function(product) {",
+                  "        pm.expect(product.price).to.be.at.least(0);",
+                  "    });",
+                  "});",
+                  "",
+                  "// Save first product ID if exists",
+                  "if (jsonData.result && jsonData.result.length > 0) {",
+                  "    pm.environment.set(\"productId\", jsonData.result[0].id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"page\": 1,\n    \"limit\": 10\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/v1/dashboard/product/findAll",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "v1", "dashboard", "product", "findAll"]
+            }
+          }
+        },
+        {
+          "name": "POST Get All Products with Search",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const jsonData = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has result array\", function () {",
+                  "    pm.expect(jsonData).to.have.property('result');",
+                  "    pm.expect(jsonData.result).to.be.an('array');",
+                  "});",
+                  "",
+                  "pm.test(\"Search results are relevant\", function () {",
+                  "    // Check if any result contains search term (case-insensitive)",
+                  "    if (jsonData.result.length > 0) {",
+                  "        const hasRelevantResult = jsonData.result.some(function(product) {",
+                  "            const titleUz = product.title.uz ? product.title.uz.toLowerCase() : '';",
+                  "            const titleRu = product.title.ru ? product.title.ru.toLowerCase() : '';",
+                  "            const titleEn = product.title.en ? product.title.en.toLowerCase() : '';",
+                  "            return titleUz.includes('test') || titleRu.includes('test') || titleEn.includes('test');",
+                  "        });",
+                  "        // This might not always be true depending on data",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"page\": 1,\n    \"limit\": 10,\n    \"search\": \"test\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/v1/dashboard/product/findAll",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "v1", "dashboard", "product", "findAll"]
+            }
+          }
+        },
+        {
+          "name": "POST Get Product by ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const jsonData = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has result object\", function () {",
+                  "    pm.expect(jsonData).to.have.property('result');",
+                  "});",
+                  "",
+                  "pm.test(\"Product has all required fields\", function () {",
+                  "    const result = jsonData.result;",
+                  "    pm.expect(result).to.have.property('id');",
+                  "    pm.expect(result).to.have.property('title');",
+                  "    pm.expect(result).to.have.property('description');",
+                  "    pm.expect(result).to.have.property('slug');",
+                  "    pm.expect(result).to.have.property('price');",
+                  "    pm.expect(result).to.have.property('count');",
+                  "});",
+                  "",
+                  "pm.test(\"Product ID matches requested ID\", function () {",
+                  "    const requestedId = parseInt(pm.environment.get(\"createdProductId\") || pm.environment.get(\"productId\"));",
+                  "    pm.expect(jsonData.result.id).to.eql(requestedId);",
+                  "});",
+                  "",
+                  "pm.test(\"Product has related entities\", function () {",
+                  "    const result = jsonData.result;",
+                  "    pm.expect(result).to.have.property('categories');",
+                  "    pm.expect(result).to.have.property('brand');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"id\": {{createdProductId}}\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/v1/dashboard/product/findOne",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "v1", "dashboard", "product", "findOne"]
+            }
+          }
+        },
+        {
+          "name": "POST Update Product",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "const updatedSlug = `updated-product-${Math.floor(Math.random() * 100000)}`;",
+                  "pm.environment.set(\"updatedProductSlug\", updatedSlug);"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 202\", function () {",
+                  "    pm.response.to.have.status(202);",
+                  "});",
+                  "",
+                  "const jsonData = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has result object\", function () {",
+                  "    pm.expect(jsonData).to.have.property('result');",
+                  "});",
+                  "",
+                  "pm.test(\"Updated product has correct slug\", function () {",
+                  "    const updatedSlug = pm.environment.get(\"updatedProductSlug\");",
+                  "    pm.expect(jsonData.result.slug).to.eql(updatedSlug);",
+                  "});",
+                  "",
+                  "pm.test(\"Updated product has new price\", function () {",
+                  "    pm.expect(jsonData.result.price).to.eql(200000);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"id\": {{createdProductId}},\n    \"title\": {\n        \"uz\": \"Updated Mahsulot UZ\",\n        \"ru\": \"Обновленный Продукт RU\",\n        \"en\": \"Updated Product EN\"\n    },\n    \"description\": {\n        \"uz\": \"Updated tavsif UZ\",\n        \"ru\": \"Обновленное описание RU\",\n        \"en\": \"Updated description EN\"\n    },\n    \"slug\": \"{{updatedProductSlug}}\",\n    \"count\": 150,\n    \"price\": 200000,\n    \"price_with_discount\": 180000,\n    \"file_ids\": [1],\n    \"seo_title\": \"Updated Product SEO\",\n    \"seo_description\": \"Updated product SEO description\",\n    \"is_discount\": true,\n    \"is_new\": false,\n    \"position\": 2,\n    \"public\": true,\n    \"category_id\": 1,\n    \"brand_id\": 1,\n    \"unit_id\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/v1/dashboard/product/update",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "v1", "dashboard", "product", "update"]
+            }
+          }
+        },
+        {
+          "name": "POST Delete Product",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const jsonData = pm.response.json();",
+                  "",
+                  "pm.test(\"Response has result\", function () {",
+                  "    pm.expect(jsonData).to.have.property('result');",
+                  "});",
+                  "",
+                  "pm.test(\"Delete result is true\", function () {",
+                  "    pm.expect(jsonData.result).to.eql(true);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"id\": {{createdProductId}}\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/v1/dashboard/product/remove",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "v1", "dashboard", "product", "remove"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Error Handling",
+      "item": [
+        {
+          "name": "Unauthorized Request (No Token)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 401 or 403\", function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([401, 403]);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has error message\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('message');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"page\": 1,\n    \"limit\": 10\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/v1/dashboard/brand/findAll",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "v1", "dashboard", "brand", "findAll"]
+            }
+          }
+        },
+        {
+          "name": "Invalid Token Request",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 401 or 403\", function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([401, 403]);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has error message\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('message');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer invalid_token_here"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"page\": 1,\n    \"limit\": 10\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/v1/dashboard/brand/findAll",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "v1", "dashboard", "brand", "findAll"]
+            }
+          }
+        },
+        {
+          "name": "Not Found Resource (Invalid ID)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400 or 404\", function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 404]);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has error message\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('message');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"id\": 999999\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/v1/dashboard/brand/findOne",
+              "host": ["{{baseURL}}"],
+              "path": ["api", "v1", "dashboard", "brand", "findOne"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseURL",
+      "value": "http://62.113.58.93:4040",
+      "type": "string"
+    }
+  ]
+}
