@@ -1361,6 +1361,1043 @@
         }
       ]
     },
+        {
+      "name": "Unit",
+      "item": [
+        {
+          "name": "Create Unit",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": {},\n  \"symbol\": \"\",\n  \"public\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/unit/create",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "unit", "create"]
+            }
+          }
+        },
+        {
+          "name": "Find All Units",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"page\": 1,\n  \"limit\": 10\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/unit/findAll",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "unit", "findAll"]
+            }
+          }
+        },
+        {
+          "name": "Find One Unit",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/unit/findOne",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "unit", "findOne"]
+            }
+          }
+        },
+        {
+          "name": "Update Unit",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 0,\n  \"title\": {},\n  \"symbol\": \"\",\n  \"public\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/unit/update",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "unit", "update"]
+            }
+          }
+        },
+        {
+          "name": "Remove Unit",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/unit/remove",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "unit", "remove"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Banner",
+      "item": [
+        {
+          "name": "Create Banner",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": {},\n  \"description\": {},\n  \"file_id\": 0,\n  \"link\": \"\",\n  \"position\": 0,\n  \"top\": false,\n  \"public\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/banner/create",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "banner", "create"]
+            }
+          }
+        },
+        {
+          "name": "Find All Banners",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"page\": 1,\n  \"limit\": 10\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/banner/findAll",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "banner", "findAll"]
+            }
+          }
+        },
+        {
+          "name": "Find One Banner",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/banner/findOne",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "banner", "findOne"]
+            }
+          }
+        },
+        {
+          "name": "Update Banner",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 0,\n  \"title\": {},\n  \"description\": {},\n  \"file_id\": 0,\n  \"link\": \"\",\n  \"position\": 0,\n  \"top\": false,\n  \"public\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/banner/update",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "banner", "update"]
+            }
+          }
+        },
+        {
+          "name": "Remove Banner",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/banner/remove",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "banner", "remove"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Client Management",
+      "item": [
+        {
+          "name": "Find All Clients",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"page\": 1,\n  \"limit\": 10\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/client/findAll",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "client", "findAll"]
+            }
+          }
+        },
+        {
+          "name": "Find One Client",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/client/findOne",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "client", "findOne"]
+            }
+          }
+        },
+        {
+          "name": "Remove Client",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/client/remove",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "client", "remove"]
+            }
+          }
+        },
+        {
+          "name": "Block/Unblock Client",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 0,\n  \"block\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/client/block",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "client", "block"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Staff",
+      "item": [
+        {
+          "name": "Create Staff",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"login\": \"\",\n  \"first_name\": \"\",\n  \"last_name\": \"\",\n  \"password\": \"\",\n  \"role\": \"admin\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/staff/create",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "staff", "create"]
+            }
+          }
+        },
+        {
+          "name": "Find All Staff",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"page\": 1,\n  \"limit\": 10\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/staff/findAll",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "staff", "findAll"]
+            }
+          }
+        },
+        {
+          "name": "Find One Staff",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/staff/findOne",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "staff", "findOne"]
+            }
+          }
+        },
+        {
+          "name": "Update Staff",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/staff/update",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "staff", "update"]
+            }
+          }
+        },
+        {
+          "name": "Remove Staff",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/staff/remove",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "staff", "remove"]
+            }
+          }
+        },
+        {
+          "name": "Update My Profile",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/staff/update-my-profile",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "staff", "update-my-profile"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "File",
+      "item": [
+        {
+          "name": "Find All Files",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"page\": 1,\n  \"limit\": 10\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/file/findAll",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "file", "findAll"]
+            }
+          }
+        },
+        {
+          "name": "Find One File",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/file/findOne",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "file", "findOne"]
+            }
+          }
+        },
+        {
+          "name": "Remove File",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/file/remove",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "file", "remove"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Order",
+      "item": [
+        {
+          "name": "Find All Orders",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"page\": 1,\n  \"limit\": 10\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/order/findAll",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "order", "findAll"]
+            }
+          }
+        },
+        {
+          "name": "Find One Order",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/order/findOne",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "order", "findOne"]
+            }
+          }
+        },
+        {
+          "name": "Update Order Status",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 0,\n  \"status\": \"pending\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/order/update-status",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "order", "update-status"]
+            }
+          }
+        },
+        {
+          "name": "Remove Order",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/order/remove",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "order", "remove"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "PromoCodes",
+      "item": [
+        {
+          "name": "Create Promocode",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/promo-codes/create",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "promo-codes", "create"]
+            }
+          }
+        },
+        {
+          "name": "Find All Promocodes",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"page\": 1,\n  \"limit\": 10\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/promo-codes/findAll",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "promo-codes", "findAll"]
+            }
+          }
+        },
+        {
+          "name": "Find One Promocode",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/promo-codes/findOne",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "promo-codes", "findOne"]
+            }
+          }
+        },
+        {
+          "name": "Update Promocode",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/promo-codes/update",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "promo-codes", "update"]
+            }
+          }
+        },
+        {
+          "name": "Remove Promocode",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/promo-codes/remove",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "promo-codes", "remove"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Review",
+      "item": [
+        {
+          "name": "Find All Reviews",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"page\": 1,\n  \"limit\": 10\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/review/findAll",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "review", "findAll"]
+            }
+          }
+        },
+        {
+          "name": "Product Rating Stats",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/review/product/stats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "review", "product", "stats"]
+            }
+          }
+        },
+        {
+          "name": "Moderate Review",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 0,\n  \"is_approved\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/review/update",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "review", "update"]
+            }
+          }
+        },
+        {
+          "name": "Delete Review",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/review/delete",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "review", "delete"]
+            }
+          }
+        },
+        {
+          "name": "Find One Review",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/review/findOne",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "review", "findOne"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "PickupPointType",
+      "item": [
+        {
+          "name": "Create Pickup Point",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": {},\n  \"type\": \"store\",\n  \"address\": \"\",\n  \"location\": {},\n  \"capacity\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/pickup/create",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "pickup", "create"]
+            }
+          }
+        },
+        {
+          "name": "Find All Pickup Points",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"page\": 1,\n  \"limit\": 10\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/pickup/findAll",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "pickup", "findAll"]
+            }
+          }
+        },
+        {
+          "name": "Find One Pickup Point",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/pickup/findOne",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "pickup", "findOne"]
+            }
+          }
+        },
+        {
+          "name": "Update Pickup Point",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/pickup/update",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "pickup", "update"]
+            }
+          }
+        },
+        {
+          "name": "Delete Pickup Point",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/pickup/delete",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "pickup", "delete"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Page",
+      "item": [
+        {
+          "name": "Create Page",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"\",\n  \"title\": \"\",\n  \"description\": \"\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/page/create",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "page", "create"]
+            }
+          }
+        },
+        {
+          "name": "Find All Pages",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"page\": 1,\n  \"limit\": 10\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/page/findAll",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "page", "findAll"]
+            }
+          }
+        },
+        {
+          "name": "Find One Page",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/page/findOne",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "page", "findOne"]
+            }
+          }
+        },
+        {
+          "name": "Update Page",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 0,\n  \"name\": \"\",\n  \"title\": \"\",\n  \"description\": \"\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/page/update",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "page", "update"]
+            }
+          }
+        },
+        {
+          "name": "Remove Page",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/dashboard/page/remove",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "dashboard", "page", "remove"]
+            }
+          }
+        }
+      ]
+    },
     {
       "name": "Error Handling",
       "item": [
